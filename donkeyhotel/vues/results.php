@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html>
+<link rel="stylesheet" href="assets/css/style.css">
+
 <head>
     <title>Résultats</title>
 </head>

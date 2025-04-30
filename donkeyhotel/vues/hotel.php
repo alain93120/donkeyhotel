@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <>
+<link rel="stylesheet" href="assets/css/style.css">
+
 <head>
     <title>Recherche d'Hôtels</title>
 </head>
