@@ -1,28 +1,27 @@
 <?php
-require_once './controleurs/HomeController.php';
+require_once './controlleur/HomeController.php';
 require_once './modeles/user.php';
 
 $pdo = new PDO('mysql:host=localhost;dbname=donkeyhotel;charset=utf8', 'root', '');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$controller = new HomeController($pdo);
-$controller->login();
-
 $action = $_GET['action'] ?? 'login';
+
+$controller = new HomeController($pdo);  
 
 switch ($action) {
     case 'login':
-        $controller = new HomeController($pdo);
-        $controller->login();
+        $controller->login(); 
         break;
     case 'search':
         require_once './controlleur/CityController.php';
         $controller = new CityController();
-        $controller->showCities();
+        $controller->showCities();  
         break;
     case 'logout':
-        require './vues/logout.php';
+        require './vues/logout.php'; 
         break;
     default:
-        echo "Page introuvable.";
+        echo "Page introuvable."; 
 }
+?>

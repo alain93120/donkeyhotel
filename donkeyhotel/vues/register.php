@@ -5,7 +5,7 @@
 </head>
 <body>
 <?php
-require_once __DIR__ . '../controlleur/authController.php'; 
+require_once __DIR__ . '../controlleur/homeController.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['email'], $_POST['password'])) {
   
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['e
   $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
   
-  $query = "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)";
+  $query = "INSERT INTO user (username, email, password) VALUES (:username, :email, :password)";
   $stmt = $pdo->prepare($query);
 
   try {

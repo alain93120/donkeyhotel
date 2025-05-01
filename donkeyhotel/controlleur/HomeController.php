@@ -9,29 +9,44 @@ class HomeController {
     }
 
     public function login() {
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $message = '';
-
-        // Si l'utilisateur est déjà connecté, on le redirige vers le tableau de bord
+    
         if (isset($_SESSION['user_id'])) {
             header('Location: dashboard.php');
             exit();
         }
-
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = trim($_POST['email']);
             $password = $_POST['password'];
-
+        
+            // Récupérer l'utilisateur par son email
             $user = $this->userModel->findByEmail($email);
-
-            if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = $user['id'];
-                header('Location: dashboard.php');
-                exit();
+        
+            if ($user) {
+                // Afficher les valeurs pour déboguer
+                echo 'Mot de passe saisi : ' . $password . '<br>';
+                echo 'Mot de passe en base de données : ' . $user['password'] . '<br>';
+        
+                // Vérifier si le mot de passe correspond avec celui stocké
+                if (password_verify($password, $user['password'])) {
+                    echo "Mot de passe valide<br>";
+                    $_SESSION['user_id'] = $user['id'];
+                    header('Location: dashboard.php');
+                    exit();
+                } else {
+                    echo "Mot de passe incorrect<br>";
+                    $message = "Nom d'utilisateur ou mot de passe incorrect.";
+                }
             } else {
-                $message = "Nom d'utilisateur ou mot de passe incorrect.";
+                echo "Utilisateur non trouvé<br>";
+                $message = "Utilisateur non trouvé.";
             }
         }
+        
 
         require(__DIR__ . '/../vues/login.php');
     }

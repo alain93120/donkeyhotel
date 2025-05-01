@@ -37,10 +37,10 @@ class User {
     }
 
     public function findByEmail($email) {
-        $sql = "SELECT * FROM users WHERE email = :email";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([':email' => $email]);
+        $stmt = $this->pdo->prepare("SELECT * FROM user WHERE email = :email");
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-}
+} 
 ?>
