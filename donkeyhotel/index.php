@@ -1,8 +1,14 @@
 <?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 require_once './controlleur/HomeController.php';
 require_once './modeles/user.php';
 
-$pdo = new PDO('mysql:host=localhost;dbname=donkeyhotel;charset=utf8', 'root', '');
+$pdo = new PDO('mysql:host=localhost;port=3306;dbname=donkeyhotel;charset=utf8', 'root', '');
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $action = $_GET['action'] ?? 'login';
@@ -14,7 +20,7 @@ switch ($action) {
         $controller->login(); 
         break;
     case 'search':
-        require_once './controlleur/CityController.php';
+        require_once './controlleur/HotelController.php';
         $controller = new CityController();
         $controller->showCities();  
         break;

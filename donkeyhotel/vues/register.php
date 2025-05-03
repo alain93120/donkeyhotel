@@ -5,49 +5,45 @@
 </head>
 <body>
 <?php
-require_once __DIR__ . '../controlleur/homeController.php'; 
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['username'], $_POST['email'], $_POST['password'])) {
+require_once '../controlleur/UserController.php'; 
+
+$pdo = new PDO('mysql:host=localhost;dbname=donkeyhotel;charset=utf8', 'root', '');
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+$userController = new UserController($pdo);
+$message = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['firstname'], $_POST['email'], $_POST['password'])) {
   
-  $username = trim($_POST['username']);
+  $firstname = trim($_POST['firstname']);
+  $lastname = trim($_POST['lastname']);
   $email = trim($_POST['email']);
   $password = $_POST['password'];
 
-  
-  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+  $message = $userController->registerUser($email, $password, $firstname, $lastname);
 
-  
-  $query = "INSERT INTO user (username, email, password) VALUES (:username, :email, :password)";
-  $stmt = $pdo->prepare($query);
-
-  try {
-    $stmt->execute([
-      ':username' => $username,
-      ':email' => $email,
-      ':password' => $hashed_password
-    ]);
+  if (strpos($message, 'réussie') !== false) {
     echo "<div class='success'>
-            <h3>✅ Vous êtes inscrit avec succès.</h3>
+            <h3>✅ $message</h3>
             <p>Cliquez ici pour vous <a href='login.php'>connecter</a></p>
           </div>";
-  } catch (PDOException $e) {
-    echo "<div class='error'>
-            <p>❌ Erreur : " . $e->getMessage() . "</p>
-          </div>";
-  }
-
 } else {
+    echo "<div class='error'><p>❌ $message</p></div>";
+}
+}
+  
 ?>
 
 <form class="box" action="" method="post">
   <h1 class="box-title">S'inscrire</h1>
-  <input type="text" class="box-input" name="username" placeholder="Nom d'utilisateur" required />
+  <input type="text" class="box-input" name="firstname" placeholder="Prénom" required />
+  <input type="text" class="box-input" name="lastname" placeholder="Nom" required />
   <input type="email" class="box-input" name="email" placeholder="Email" required />
   <input type="password" class="box-input" name="password" placeholder="Mot de passe" required />
   <input type="submit" name="submit" value="S'inscrire" class="box-button" />
   <p class="box-register">Déjà inscrit ? <a href="login.php">Connectez-vous ici</a></p>
 </form>
 
-<?php } ?>
 </body>
 </html>

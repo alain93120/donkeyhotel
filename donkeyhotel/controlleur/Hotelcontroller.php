@@ -1,18 +1,11 @@
 <?php
-require_once(__DIR__ . '/../modeles/City.php');
+require_once(__DIR__ . '/../modeles/Hotel.php');
 
+class HotelController {
+    public function showHotels() {
+        $hotelModel = new Hotel(); 
+        $hotels = $hotelModel->read(); 
 
-class HomeController {
-    public function read() {
-        $cityobjet = new read();
-        $city = $cityobjet->read();
-        var_dump($city);
-        require "./vues/city.php";
-
+        require __DIR__ . '/../vues/hotel.php'; 
     }
 }
-
-$home = new HomeController();
-$home->read();
-
-?>
