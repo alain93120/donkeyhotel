@@ -1,35 +1,48 @@
-<!DOCTYPE html>
-<>
-<link rel="stylesheet" href="assets/css/style.css">
+<?php
+include 'nav.php';
+include('head.php'); ?>
 
-<head>
-    <title>Recherche d'Hôtels</title>
-</head>
 <body>
-    <h1>Choisissez votre ville et vos horaires</h1>
-    <form action="index.php?action=search" method="post">
-        <label for="ville">Ville :</label>
-        <input type="text" name="ville" id="ville" required><br><br>
+    <?php include('nav.php'); ?>
+    <h1>Donkey Hôtel</h1>
+    <form method="POST" action="../controlleurs/HotelController.php">
+        <div class="mb-4">
+            <LEgend>Trouvez votre hôtel</LEgend>
+            <label for="ville" class="form-label">
+                <select class="form-select" id="ville" name="ville" required>
+                    <option value="" disabled selected>Choisissez une ville</option>
+                    <?php foreach ($hotel as $item) : ?>
+                        <option value="<?= htmlspecialchars($item['name']) ?>">
+                            <?= htmlspecialchars($item['name']) ?>
+                        </option> <?php endforeach; ?>
+                </select>
+                <label for="arrivalDate" class="form-label">
+                    <select class="form-select" id="arrivalDate" name="arrivalDate" required>
+                        <option value="" disabled selected>Date d'arrivée</option>
+                        <?php foreach ($hotel as $item) : ?>
+                            <option value="<?= htmlspecialchars($item['startdate']) ?>">
+                                <?= htmlspecialchars($item['startdate']) ?>
+                            </option> <?php endforeach; ?>
+                    </select>
 
-        <label for="arrivee">Heure d'arrivée :</label>
-        <input type="time" name="arrivee" id="arrivee" required><br><br>
+                    <label for="departDate" class="form-label">
+                        <select class="form-select" id="departDate" name="departDate" required>
+                            <option value="" disabled selected>Date de retour</option>
+                            <?php foreach ($hotel as $item) : ?>
+                                <option value="<?= htmlspecialchars($item['enddate']) ?>">
+                                    <?= htmlspecialchars($item['enddate']) ?>
+                                </option> <?php endforeach; ?>
+                        </select>
 
-        <label for="depart">Heure de départ :</label>
-        <input type="time" name="depart" id="depart" required><br><br>
-
-        <button type="submit">Valider</button>
+                        <a href="../controlleurs/HotelController.php" class="btn btn-primary">Voir</a>
+        </div>
+        <div class="img1">
+            <img src="../img/photo-hotel-paris.jpg" alt="hotel">
+        </div>
     </form>
+    <?php
+    include('footer.php'); ?>
+
 </body>
 
-<form action="index.php?action=search" method="post">
-    <label for="ville">Ville :</label>
-    <input type="text" id="ville" name="ville" required>
-
-    <label for="arrivee">Heure d'arrivée :</label>
-    <input type="time" id="arrivee" name="arrivee" required>
-
-    <label for="depart">Heure de départ :</label>
-    <input type="time" id="depart" name="depart" required>
-
-    <button type="submit">Valider</button>
-</form>
+</html>

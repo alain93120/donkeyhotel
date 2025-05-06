@@ -1,27 +1,3 @@
-<?php
-require_once __DIR__ . '/../controlleur/UserController.php';
-
-$pdo = new PDO('mysql:host=localhost;dbname=donkeyhotel;charset=utf8', 'root', '');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$userController = new UserController($pdo);
-$message = '';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
-
-
-        if ($userController->loginUser($email, $password)) {
-            // session_start();
-            // $_SESSION['user_id'] = $userData['id'];
-            header('Location: dashboard.php');
-            exit();
-        } else {
-            $message = "Mot de passe ou email incorrect.";
-        }
-}
-?>
 
 
 
@@ -29,6 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="../assets/style.css">
   <title>Connexion - DONKEY HÔTEL</title>
   <style>
     body {
