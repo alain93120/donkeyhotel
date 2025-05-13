@@ -1,24 +1,27 @@
 <?php
-require_once __DIR__ . '/../controlleur/UserController.php';
+session_start();
+require_once __DIR__ . '/../config/db.php'; 
+require_once __DIR__ . '/../modeles/User.php';
 
-$pdo = new PDO('mysql:host=localhost;dbname=donkeyhotel;charset=utf8', 'root', '');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-$userController = new UserController($pdo);
 $message = '';
 
-include 'vues/nav.php';
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $email = trim($_POST['email']);
-        $password = $_POST['password'];
+    $email = trim($_POST['email']);
+    $password = $_POST['password'];
 
+    if (!empty($email) && !empty($password)) {
+        $userModel = new User();
+        $user = $userModel->findByEmail($email);
 
-        if ($userController->loginUser($email, $password)) {
-            header('Location: dashboard.php');
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            header('Location: index.php?action=reservation');
             exit();
         } else {
-            $message = "Mot de passe ou email incorrect.";
+            $message = "Adresse email ou mot de passe incorrect.";
         }
+    } else {
+        $message = "Veuillez remplir tous les champs.";
+    }
 }
 ?>

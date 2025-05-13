@@ -14,7 +14,7 @@ include('head.php'); ?>
                     <?php foreach ($hotel as $item) : ?>
                         <option value="<?= htmlspecialchars($item['name']) ?>">
                             <?= htmlspecialchars($item['name']) ?>
-                        </option> <?php endforeach; ?>
+                        </option> <?php endforeach; ?>D
                 </select>
                 <label for="arrivalDate" class="form-label">
                     <select class="form-select" id="arrivalDate" name="arrivalDate" required>

@@ -1,20 +1,24 @@
 <?php
 session_start();
-require_once __DIR__ . '/../controlleur/AccountController.php';
 
-$pdo = new PDO('mysql:host=localhost;dbname=donkeyhotel;charset=utf8', 'root', '');
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-$accountController = new AccountController($pdo);
+require_once __DIR__ . '/config/db.php';
+require_once __DIR__ . '/controlleur/AccountController.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: index.php?action=login');
+    header('Location: account.php?subAction=update');
     exit();
 }
+
+$accountController = new AccountController();
 
 $userId = $_SESSION['user_id'];
 $user = $accountController->getAccountInfo($userId);
 $message = '';
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['update'])) {
@@ -25,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $civility = trim($_POST['civility']);
 
         $message = $accountController->updateAccount($userId, $firstname, $lastname, $email, $phone, $civility);
-        $user = $accountController->getAccountInfo($userId); 
+        $user = $accountController->getAccountInfo($userId);
     }
 
     if (isset($_POST['delete'])) {
@@ -35,8 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
+
+
+require_once __DIR__ . '/vues/account.php'; 
 ?>
-
-
-
 

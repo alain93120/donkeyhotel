@@ -1,10 +1,7 @@
 <?php
-class User {
-    private $pdo;
-
-    public function __construct($pdo) {
-        $this->pdo = $pdo;
-    }
+require_once __DIR__.("/Base.php");
+class User extends Base {
+   
 
     public function register($email, $password, $firstname, $lastname) {
         if (empty($email) || empty($password) || empty($firstname) || empty($lastname)) {

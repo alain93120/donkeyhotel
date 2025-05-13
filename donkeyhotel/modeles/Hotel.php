@@ -1,38 +1,14 @@
-
 <?php
-require_once('Base.php');
 
-class Hotel extends Base
-{
-    public $table = "city";
+class Hotel {
+    private PDO $pdo;
 
-
-    public function read()
-    {
-        $sql = 'select city.name, reservation.startdate, reservation.enddate
-         from city
-         inner join hotel 
-         on city.id = hotel.city_id
-         inner join reservation
-         on reservation.hotel_id = hotel.id '; 
-        $query = $this->pdo->query($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
-
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
     }
 
-    public function showDetail()
-    {
-        $sql = 'select city.name, hotel.name,hotel.pricenight, reservation.startdate, reservation.enddate
-        from city
-        inner join hotel 
-        on city.id = hotel.city_id
-        inner join reservation
-        on reservation.hotel_id = hotel.id';
-        $query = $this->pdo->query($sql);
-        $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+    public function readAll(): array {
+        $stmt = $this->pdo->query("SELECT * FROM hotel");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

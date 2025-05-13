@@ -2,10 +2,13 @@
 require_once(__DIR__ . '/../modeles/Hotel.php');
 
 class HotelController {
-    public function showHotels() {
-        $hotelModel = new Hotel(); 
-        $hotels = $hotelModel->read(); 
+    public function showHotels($pdo) {
+        $hotelModel = new Hotel($pdo); 
+        $hotels = $hotelModel->readAll(); 
 
         require __DIR__ . '/../vues/hotel.php'; 
     }
+
+    
+    
 }
